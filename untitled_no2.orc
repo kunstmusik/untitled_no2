@@ -105,5 +105,7 @@ instr Runner
   schedule(p1, random(8, 14), 1)
 endin
 
+seed(0)
+
 schedule("Runner", 0, 1)
 schedule("Mixer", 0, -1)
