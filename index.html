@@ -2,25 +2,21 @@
   <html>
     
   <head>
-
-		<style>
-				html, body {
-						overflow: hidden;
-margin: 0;
-				}	
-
-			#c {
-				width: 100%;
-				height: 100%;
-			}
-    </style>
-
     <title>Steven Yi - Untitled No. 2</title>
     <meta charset="utf-8">
+
+    <link rel="stylesheet" type="text/css" href="app.css">
   </head>
   <body>
 
     <canvas id="c"></canvas>
+    <div id="overlay">
+      <p>Title: Untitled, no. 2</p>
+      <p>Author: Steven Yi &lt;stevenyi@gmail.com&gt;</p>
+      <p>Release: Work in progress</p>
+      
+      <p><button type="button" id="startButton" disabled>Loading...</button></p>
+    </div>
 
     <script src="csound/CsoundObj.js"></script>
     <script src="marching.js"></script>
