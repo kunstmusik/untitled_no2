@@ -7,10 +7,61 @@
 
 const mainCanvas = document.getElementById("c");
 
-//function resize() {
-//    mainCanvas.width = document.body.clientWidth;
-//    mainCanvas.height = document.body.clientHeight;
-//}
+function resize() {
+    //mainCanvas.width = document.body.clientWidth;
+    //mainCanvas.height = document.body.clientHeight;
+    //let gl = mainCanvas.getContext("webgl2")
+    //if(gl != null) {
+    //  //gl.viewport(0,0, mainCanvas.width, mainCanvas.height * 2);
+
+    //  var realToCSSPixels = window.devicePixelRatio;
+
+    //  // Lookup the size the browser is displaying the canvas in CSS pixels
+    //  // and compute a size needed to make our drawingbuffer match it in
+    //  // device pixels.
+    //  var displayWidth  = Math.floor(gl.canvas.clientWidth  * realToCSSPixels);
+    //  var displayHeight = Math.floor(gl.canvas.clientHeight * realToCSSPixels);
+
+    //  // Check if the canvas is not the same size.
+    //  if (gl.canvas.width  !== displayWidth ||
+    //      gl.canvas.height !== displayHeight) {
+
+    //    // Make the canvas the same size
+    //    gl.canvas.width  = displayWidth;
+    //    gl.canvas.height = displayHeight;
+    //  }
+
+
+    //}
+
+
+    // Lookup the size the browser is displaying the canvas.
+    var realToCSSPixels = window.devicePixelRatio;
+
+
+    var displayWidth  = Math.floor(mainCanvas.clientWidth );
+    var displayHeight = Math.floor(mainCanvas.clientHeight);
+
+    console.log(`${realToCSSPixels} : ${displayWidth} : ${displayHeight}`);
+
+
+    // Check if the canvas is not the same size.
+    if (mainCanvas.width  != displayWidth ||
+        mainCanvas.height != displayHeight) {
+
+      // Make the canvas the same size
+      mainCanvas.width  = displayWidth;
+      mainCanvas.height = displayHeight;
+    }
+
+    let gl = mainCanvas.getContext("webgl2")
+    if(gl != null) {
+      gl.viewport(0,0, mainCanvas.width , mainCanvas.height);
+    }
+
+
+
+}
 //window.addEventListener('resize', resize, false); 
 //resize();
 
@@ -21,7 +72,7 @@ function startVideo() {
   Marching.init(mainCanvas);
   Marching.export(window);
 
-  let bSize = Vec3(1,1,0.25)
+ let bSize = Vec3(1,1,0.25)
 
   let r = Rotation(
     Box(bSize),
@@ -40,8 +91,10 @@ function startVideo() {
     Vec3(0,1,0))
 
 
-  march(Union(Union(r, r2), 
-              Union(r3, r4))).render( 3, true )
+  let scene = march(Union2(r, r2, r3, r4))
+    .background(Vec3(0.1,0.1,0.2))
+    .light(Light(Vec3(0,2,3), Vec3(0.05, 0.05, 0.08)))
+    .render( 3, true )
 
   const TWO_PI = 2 * Math.PI;
   const THREE_PI = 3 * Math.PI;
@@ -49,7 +102,8 @@ function startVideo() {
 
   const angleAdj = function(rot, initPhase) {
     return function(time) {
-      let t = (time + initPhase)  % FOUR_PI; 
+      let phs = time * TWO_PI  / 15 
+      let t = (phs + initPhase)  % FOUR_PI; 
       if(t > THREE_PI) {
         rot.angle = TWO_PI;
       } else if (t > TWO_PI) {
