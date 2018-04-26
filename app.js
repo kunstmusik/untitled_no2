@@ -74,7 +74,6 @@ CsoundObj.importScripts("./csound/").then(() => {
     response.text().then((orc) => {
 
       let startButton = document.getElementById("startButton");
-      console.log(startButton);
 
       startButton.innerText = "Press to Start";
       startButton.disabled = false;
