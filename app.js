@@ -7,41 +7,13 @@
 
 const mainCanvas = document.getElementById("c");
 
-// https://webglfundamentals.org/webgl/lessons/webgl-resizing-the-canvas.html
-function resize() {
-    // Lookup the size the browser is displaying the canvas.
-    var realToCSSPixels = window.devicePixelRatio;
-
-
-    var displayWidth  = Math.floor(mainCanvas.clientWidth  * realToCSSPixels);
-    var displayHeight = Math.floor(mainCanvas.clientHeight * realToCSSPixels);
-
-    console.log(`${realToCSSPixels} : ${displayWidth} : ${displayHeight}`);
-
-
-    // Check if the canvas is not the same size.
-    if (mainCanvas.width  != displayWidth ||
-        mainCanvas.height != displayHeight) {
-
-      // Make the canvas the same size
-      mainCanvas.width  = displayWidth;
-      mainCanvas.height = displayHeight;
-    }
-
-    let gl = mainCanvas.getContext("webgl2")
-    if(gl != null) {
-      gl.viewport(0,0, mainCanvas.width , mainCanvas.height);
-    }
-}
-window.addEventListener('resize', resize, false); 
-//resize();
-
 
 /* VIDEO */
 
 function startVideo() {
   Marching.init(mainCanvas);
   Marching.export(window);
+
 
  let bSize = Vec3(1,1,0.25)
 
@@ -91,6 +63,7 @@ function startVideo() {
   callbacks.push( angleAdj(r, Math.PI / 2))
   callbacks.push( angleAdj(r3, Math.PI))
   callbacks.push( angleAdj(r4, Math.PI * 1.5))
+
 }
 
 
@@ -106,6 +79,11 @@ CsoundObj.importScripts("./csound/").then(() => {
       startButton.innerText = "Press to Start";
       startButton.disabled = false;
       startButton.onclick = function() {
+
+        if (screenfull.enabled) {
+          screenfull.request();
+        }
+
         startVideo();
 
         let cs = new CsoundObj();
@@ -114,6 +92,7 @@ CsoundObj.importScripts("./csound/").then(() => {
         cs.start();
 
         document.getElementById("overlay").style= "display:none";
+
       }
 
 
