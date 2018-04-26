@@ -7,40 +7,14 @@
 
 const mainCanvas = document.getElementById("c");
 
+// https://webglfundamentals.org/webgl/lessons/webgl-resizing-the-canvas.html
 function resize() {
-    //mainCanvas.width = document.body.clientWidth;
-    //mainCanvas.height = document.body.clientHeight;
-    //let gl = mainCanvas.getContext("webgl2")
-    //if(gl != null) {
-    //  //gl.viewport(0,0, mainCanvas.width, mainCanvas.height * 2);
-
-    //  var realToCSSPixels = window.devicePixelRatio;
-
-    //  // Lookup the size the browser is displaying the canvas in CSS pixels
-    //  // and compute a size needed to make our drawingbuffer match it in
-    //  // device pixels.
-    //  var displayWidth  = Math.floor(gl.canvas.clientWidth  * realToCSSPixels);
-    //  var displayHeight = Math.floor(gl.canvas.clientHeight * realToCSSPixels);
-
-    //  // Check if the canvas is not the same size.
-    //  if (gl.canvas.width  !== displayWidth ||
-    //      gl.canvas.height !== displayHeight) {
-
-    //    // Make the canvas the same size
-    //    gl.canvas.width  = displayWidth;
-    //    gl.canvas.height = displayHeight;
-    //  }
-
-
-    //}
-
-
     // Lookup the size the browser is displaying the canvas.
     var realToCSSPixels = window.devicePixelRatio;
 
 
-    var displayWidth  = Math.floor(mainCanvas.clientWidth );
-    var displayHeight = Math.floor(mainCanvas.clientHeight);
+    var displayWidth  = Math.floor(mainCanvas.clientWidth  * realToCSSPixels);
+    var displayHeight = Math.floor(mainCanvas.clientHeight * realToCSSPixels);
 
     console.log(`${realToCSSPixels} : ${displayWidth} : ${displayHeight}`);
 
@@ -58,11 +32,8 @@ function resize() {
     if(gl != null) {
       gl.viewport(0,0, mainCanvas.width , mainCanvas.height);
     }
-
-
-
 }
-//window.addEventListener('resize', resize, false); 
+window.addEventListener('resize', resize, false); 
 //resize();
 
 
