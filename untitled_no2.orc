@@ -43,6 +43,21 @@ opcode alg0, k[], ik[]
   xout kout
 endop
 
+opcode play_chord,0,Siik[]i
+  Sinstr, idur, ibase, kvals[], iamp xin
+
+  turnoff
+
+  indx = 0
+  istart = 0
+  while (indx < lenarray:i(kvals)) do
+    schedule(Sinstr, istart, idur, cpsmidinn(ibase + i(kvals, indx)), ampdbfs(iamp))
+    indx += 1
+    istart += random(0.01, 1)
+  od
+
+endop
+
 opcode choose, i, i
   iamount xin
   ival = 0
@@ -56,10 +71,29 @@ endop
 instr 1
   asig = vco2(0.5, p4)
   asig += vco2(0.15, p4 * 1.5)
+  asig *= p5
   asig = zdf_ladder(asig, expon(12000, p3, 200), 5)
   gal += asig
   gar += asig
 endin
+
+instr Str 
+  asig = vco2(0.5, p4)
+  asig += vco2(0.15, p4 * 1.5, 10)
+  asig *= p5
+  asig = zdf_ladder(asig, expseg(400, p3 *.5, 15000, p3 *.5, 400), 5)
+  gal += asig
+  gar += asig
+endin
+
+
+/* 
+  play_chord("Str", random(15.5, 16), 72, array(0,2,4,5,7,9), -24)
+  play_chord("Str", random(15.5, 16), 66, array(0,2,4,5,7,9), -24)
+  play_chord("Str", random(15.5, 16), 43, array(0,2,4,5,7,9), -24)
+  play_chord("Str", random(15.5, 16), 62, array(0,1,3,5,6,8,10,11), -28)
+  play_chord("Str", random(31.5, 32), 48, array(0,1,3,5,6,8,10,11), -28)
+*/
 
 instr Mixer
 
