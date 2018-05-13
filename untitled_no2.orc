@@ -108,9 +108,13 @@ instr Str
   asig = vco2(0.5, p4)
   asig += vco2(0.15, p4 * 1.5, 10)
   asig *= p5
-  asig = zdf_ladder(asig, expseg(400, p3 *.5, 15000, p3 *.5, 400), 5)
-  gal += asig
-  gar += asig
+  asig = zdf_ladder(asig, expseg(400, p3 *.5, 12000, p3 *.5, 400), 5)
+
+  asig *= linseg(0, p3 * .5, 1, p3 * .5, 0)
+
+  al, ar pan2 asig, random:i(0, 1)
+  gal += al 
+  gar += ar 
 endin
 
 opcode rand_symmetric, k[],ik[]
@@ -159,11 +163,15 @@ play_chord("Str", random(15.5, 16), 72, array(0,2,4,5,7,9), -24)
   play_chord("Str", random(31.5, 32), 48, array(0,1,3,5,6,8,10,11), -28)
 
 
-  play_chord("Str", random(31.5, 32), 43, rand_symmetric(4, array(1,2,4)), -20)
-  play_chord("Str", random(31.5, 32), 73, rand_symmetric(2, array(1,2)), -20)
-  play_chord("Str", random(31.5, 32), 60, rand_symmetric(5, array(2,4)), -20)
-  play_chord("Str", random(31.5, 32), 57, rand_symmetric(9, array(2,4,5)), -20)
+  play_chord("Str", random(31.5, 32), 43, rand_symmetric(4, array(1,2,4)), -28)
+  play_chord("Str", random(31.5, 32), 73, rand_symmetric(2, array(1,2)), -28)
+  play_chord("Str", random(31.5, 32), 60, rand_symmetric(5, array(2,4)), -28)
+  play_chord("Str", random(31.5, 32), 57, rand_symmetric(9, array(2,4,5)), -28)
 
+  play_chord("Str", random(31.5, 32), 45, rand_symmetric(3, array(7,5)), -28)
+
+
+  play_chord("Str", random(31.5, 32), 44, rand_symmetric(8, array(2,4,5)), -28)
 
   play_chord(1, random(3.5, 4), 57, rand_symmetric(9, array(2,4,5)), -20)
 */
