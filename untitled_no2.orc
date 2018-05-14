@@ -95,6 +95,14 @@ opcode choose, i, i
   xout ival
 endop
 
+/** Returns random item from karray. */
+opcode rand, i, k[]
+  kvals[] xin
+  indx = int(random(0, lenarray(kvals)))
+  ival = i(kvals, indx)
+  xout ival
+endop
+
 instr 1
   asig = vco2(0.5, p4)
   asig += vco2(0.15, p4 * 1.5)
@@ -168,7 +176,7 @@ play_chord("Str", random(15.5, 16), 72, array(0,2,4,5,7,9), -24)
   play_chord("Str", random(31.5, 32), 60, rand_symmetric(5, array(2,4)), -28)
   play_chord("Str", random(31.5, 32), 57, rand_symmetric(9, array(2,4,5)), -28)
 
-  play_chord("Str", random(31.5, 32), 45, rand_symmetric(3, array(7,5)), -28)
+  play_chord("Str", random(31.5, 32), rand(rand_symmetric(3, array(7,5))) + 43, rand_symmetric(3, array(7,5)), -28)
 
 
   play_chord("Str", random(31.5, 32), 44, rand_symmetric(8, array(2,4,5)), -28)
