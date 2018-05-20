@@ -7,9 +7,5 @@
 
 </CsInstruments>
 
-<CsScore>
-f0 10000000
-</CsScore>
-
 </CsoundSynthesizer>
 

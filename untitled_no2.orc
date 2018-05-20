@@ -55,8 +55,8 @@ opcode alg0, k[], ik[]
   xout kout
 endop
 
-opcode play_chord,0,Siik[]i
-  Sinstr, idur, ibase, kvals[], iamp xin
+opcode play_chord,0,Siiik[]i
+  Sinstr, istart, idur, ibase, kvals[], iamp xin
 
   turnoff
 
@@ -70,8 +70,8 @@ opcode play_chord,0,Siik[]i
 
 endop
 
-opcode play_chord,0,iiik[]i
-  instr_num, idur, ibase, kvals[], iamp xin
+opcode play_chord,0,iiiik[]i
+  instr_num, istart, idur, ibase, kvals[], iamp xin
 
   turnoff
 
@@ -164,19 +164,19 @@ print_array(rand_symmetric(4, array(1,2)))
 
 
 /* 
-play_chord("Str", random(15.5, 16), 72, array(0,2,4,5,7,9), -24)
-  play_chord("Str", random(15.5, 16), 66, array(0,2,4,5,7,9), -24)
-  play_chord("Str", random(15.5, 16), 43, array(0,2,4,5,7,9), -24)
-  play_chord("Str", random(15.5, 16), 62, array(0,1,3,5,6,8,10,11), -28)
-  play_chord("Str", random(31.5, 32), 48, array(0,1,3,5,6,8,10,11), -28)
+play_chord("Str", 0, random(15.5, 16), 72, array(0,2,4,5,7,9), -24)
+  play_chord("Str", 0, random(15.5, 16), 66, array(0,2,4,5,7,9), -24)
+  play_chord("Str", 0, random(15.5, 16), 43, array(0,2,4,5,7,9), -24)
+  play_chord("Str", 0, random(15.5, 16), 62, array(0,1,3,5,6,8,10,11), -28)
+  play_chord("Str", 0, random(31.5, 32), 48, array(0,1,3,5,6,8,10,11), -28)
 
 
-  play_chord("Str", random(31.5, 32), 43, rand_symmetric(4, array(1,2,4)), -28)
-  play_chord("Str", random(31.5, 32), 73, rand_symmetric(2, array(1,2)), -28)
-  play_chord("Str", random(31.5, 32), 60, rand_symmetric(5, array(2,4)), -28)
-  play_chord("Str", random(31.5, 32), 57, rand_symmetric(9, array(2,4,5)), -28)
+  play_chord("Str", 0, random(31.5, 32), 43, rand_symmetric(4, array(1,2,4)), -28)
+  play_chord("Str", 0, random(31.5, 32), 73, rand_symmetric(2, array(1,2)), -28)
+  play_chord("Str", 0, random(31.5, 32), 60, rand_symmetric(5, array(2,4)), -28)
+  play_chord("Str", 0, random(31.5, 32), 57, rand_symmetric(9, array(2,4,5)), -28)
 
-  play_chord("Str", random(31.5, 32), rand(rand_symmetric(3, array(7,5))) + 43, rand_symmetric(3, array(7,5)), -28)
+  play_chord("Str", 0, random(31.5, 32), rand(rand_symmetric(3, array(7,5))) + 43, rand_symmetric(3, array(7,5)), -28)
 
 
   play_chord("Str", random(31.5, 32), 44, rand_symmetric(8, array(2,4,5)), -28)
@@ -228,6 +228,25 @@ instr Runner
   schedule(p1, random(8, 14), 1)
 endin
 
+instr ChordRunner
+
+  turnoff
+  ival = random(7.5, 8)
+
+  inotenums = int(random(2, 7))
+
+  play_chord("Str", 0, random(31.5, 32), 48 + random(0, 24), rand_symmetric(inotenums, array(4,5,7)), -28)
+  
+  if(choose(0.3) == 1) then
+    play_chord("Str", random(1, 4), random(31.5, 32), 48 + random(0, 24), rand_symmetric(inotenums, array(2,4,5)), -28)
+  endif
+
+  schedule(p1, ival * 4, 1)
+endin
+
+schedule("ChordRunner", 0, 1)
+
+;; Initialization of work
 seed(0)
 
 schedule("Runner", 0, 1)
