@@ -197,7 +197,20 @@ instr Mixer
   gar = 0
 endin
 
+
+
+;; Performance Runners
+;; * Temporal Recursion
+;; * Limit to number of iterations
+
 instr Runner
+  turnoff
+
+  icount = p4
+  ilimit = p5
+
+  prints("R1: %d %d\n", icount, ilimit)
+
   knn[] = array(2,5,7,1)
 
   ilen = lenarray(knn)
@@ -215,7 +228,8 @@ instr Runner
     schedule(1, istart, 
       8, 
       cpsmidinn(72 + inn), 
-      ampdbfs(-22))
+      ampdbfs(-22 - (5 * icount / ilimit)))
+
     if(choose(0.75) == 1) then
       istart += random(2, 4) * 4
     else 
@@ -225,11 +239,54 @@ instr Runner
     indx += 1
   od
 
-  schedule(p1, random(8, 14), 1)
+  if(icount < ilimit) then
+    schedule(p1, random(8, 14), 1, p4 + 1, ilimit)
+  else 
+    schedule("Runner2", random(14,28), 1, 0, rand(array(13, 17, 19, 23, 29)))
+  endif
+
+endin
+
+instr Runner2
+  turnoff
+
+  icount = p4
+  ilimit = p5
+
+  prints("R2: %d %d\n", icount, ilimit)
+
+  knn[] = array(0,7,9,10)
+
+  ilen = lenarray(knn)
+  inum = int(random(1, ilen + 1)) 
+
+  kvals[] alg0 inum, knn 
+
+  indx = 0
+  istart = 0
+  idur = random(1, 1.2)
+
+  while (indx < inum) do
+    inn = i(kvals, indx)
+    print inn
+
+    schedule(1, istart, 
+      8, 
+      cpsmidinn(70 + inn), 
+      ampdbfs(-22 - (5 * icount / ilimit)))
+
+    istart += idur
+    indx += 1
+  od
+
+  if(icount < ilimit) then
+    schedule(p1, random(8, 14), 1, p4 + 1, ilimit)
+  else 
+    schedule("Runner", random(14,28), 1, 0, rand(array(13, 17, 19, 23, 29)))
+  endif
 endin
 
 instr ChordRunner
-
   turnoff
   ival = random(7.5, 8)
 
@@ -244,10 +301,11 @@ instr ChordRunner
   schedule(p1, ival * 4, 1)
 endin
 
-schedule("ChordRunner", 0, 1)
 
 ;; Initialization of work
 seed(0)
 
-schedule("Runner", 0, 1)
+schedule("Runner", 0, 1, 0, 13)
+/*schedule("Runner2", 0, 1)*/
+schedule("ChordRunner", 0, 1)
 schedule("Mixer", 0, -1)
