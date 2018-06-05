@@ -242,7 +242,7 @@ instr Runner
   if(icount < ilimit) then
     schedule(p1, random(8, 14), 1, p4 + 1, ilimit)
   else 
-    schedule("Runner2", random(14,28), 1, 0, rand(array(13, 17, 19, 23, 29)))
+    schedule("Runner2", random(28, 42), 1, 0, rand(array(13, 17, 19, 23, 29)))
   endif
 
 endin
@@ -282,7 +282,7 @@ instr Runner2
   if(icount < ilimit) then
     schedule(p1, random(8, 14), 1, p4 + 1, ilimit)
   else 
-    schedule("Runner", random(14,28), 1, 0, rand(array(13, 17, 19, 23, 29)))
+    schedule("Runner", random(28, 42), 1, 0, rand(array(13, 17, 19, 23, 29)))
   endif
 endin
 
@@ -292,10 +292,12 @@ instr ChordRunner
 
   inotenums = int(random(2, 7))
 
-  play_chord("Str", 0, random(31.5, 32), 48 + random(0, 24), rand_symmetric(inotenums, array(4,5,7)), -28)
+  idb = -20 - (inotenums * 2)
+
+  play_chord("Str", 0, random(31.5, 32), 48 + random(0, 24), rand_symmetric(inotenums, array(4,5,7)), idb)
   
   if(choose(0.3) == 1) then
-    play_chord("Str", random(1, 4), random(31.5, 32), 48 + random(0, 24), rand_symmetric(inotenums, array(2,4,5)), -28)
+    play_chord("Str", random(1, 4), random(31.5, 32), 48 + random(0, 24), rand_symmetric(inotenums, array(2,4,5)), idb) 
   endif
 
   schedule(p1, ival * 4, 1)
