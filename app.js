@@ -45,7 +45,7 @@ function startVideo() {
 
   const angleAdj = function(rot, initPhase) {
     return function(time) {
-      let phs = time * TWO_PI  / 15 
+      let phs = time * TWO_PI  / 20 
       let t = (phs + initPhase)  % FOUR_PI; 
       if(t > THREE_PI) {
         rot.angle = TWO_PI;
