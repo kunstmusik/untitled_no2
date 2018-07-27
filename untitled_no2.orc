@@ -1,7 +1,7 @@
 ;; Untitled - no.2
 ;; Author: Steven Yi <stevenyi@gmail.com>
 
-sr=48000
+/*sr=48000*/
 ksmps=32
 nchnls=2
 nchnls_i=1
